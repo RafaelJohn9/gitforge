@@ -1,5 +1,4 @@
-use clap::CommandFactory;
-use clap::Parser;
+use clap::{CommandFactory, Parser};
 
 mod commands;
 mod utils;
@@ -7,12 +6,12 @@ mod utils;
 const BUILD_RS_CHECKSUM: &str = env!("BUILD_RS_CHECKSUM");
 
 #[derive(Parser)]
-#[command(name = "gh-templates")]
+#[command(name = "gitforge")]
 #[command(about = "📦 Scaffold GitHub templates easily", long_about = None)]
 #[command(version = option_env!("APP_VERSION").unwrap_or(env!("CARGO_PKG_VERSION")))]
 struct Cli {
     #[command(subcommand)]
-    category: Option<commands::CategoryCommand>,
+    command: Option<commands::Command>,
 
     /// Show detailed version information
     #[arg(long = "build-info", help = "Display detailed build information")]
@@ -27,8 +26,8 @@ fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    match cli.category {
-        Some(category) => category.execute(),
+    match cli.command {
+        Some(command) => command.run(),
         None => {
             // If no subcommand is provided, show help
             let mut cmd = Cli::command();

@@ -12,7 +12,7 @@ impl Fetcher {
         Self {
             client: Client::builder()
                 .timeout(Duration::from_secs(30))
-                .user_agent("gh-templates-fetcher")
+                .user_agent("gitforge-fetcher")
                 .build()
                 .unwrap(),
         }

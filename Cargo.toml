@@ -1,6 +1,6 @@
 [package]
 
-name = "gh-templates"
+name = "gitforge"
 version = "0.1.42"
 edition = "2021"
 authors = ["John Kagunda rafaeljohb@gmail.com"]

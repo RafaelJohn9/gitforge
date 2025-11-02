@@ -85,7 +85,7 @@ fn find_template_in_cache<'a>(
     }
 
     Err(anyhow::anyhow!(
-        "Template '{}' not found in cache. Try `gh-templates gitignore list` to view available templates.",
+        "Template '{}' not found in cache. Try `gitforge gitignore list` to view available templates.",
         template_name
     ))
 }

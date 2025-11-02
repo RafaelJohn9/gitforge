@@ -8,7 +8,7 @@ pub mod preview;
 
 // Global constants - these can stay in the main module file
 const GITHUB_RAW_BASE: &str =
-    "https://raw.githubusercontent.com/rafaeljohn9/gh-templates/main/templates";
+    "https://raw.githubusercontent.com/rafaeljohn9/gitforge/main/templates";
 
 #[derive(Subcommand)]
 pub enum Command {

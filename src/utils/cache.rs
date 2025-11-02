@@ -148,7 +148,7 @@ impl CacheManager {
         let home_dir = dirs::home_dir().context("Unable to determine home directory")?;
 
         // Follow XDG Base Directory specification
-        let cache_dir = home_dir.join(".local").join("share").join("gh-templates");
+        let cache_dir = home_dir.join(".local").join("share").join("gitforge");
 
         Ok(cache_dir)
     }
