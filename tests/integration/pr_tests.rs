@@ -2,7 +2,7 @@ use assert_cmd::Command as AssertCommand;
 use std::fs;
 
 /**
-Integration tests for the `gh-templates` pr subcommand.
+Integration tests for the `gitforge` pr subcommand.
 
 This test suite covers the following scenarios:
 
@@ -36,9 +36,9 @@ fn test_pr_add_default() {
 
     create_git_repo(&temp_path);
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default"])
+    cmd.args(&["add", "pr", "default"])
         .assert()
         .success()
         .stdout(predicate::str::contains(
@@ -55,11 +55,11 @@ fn test_pr_add_with_dir() {
     let target_dir = temp_path.join("custom_dir");
     fs::create_dir_all(&target_dir).unwrap();
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
     cmd.args(&[
-        "pr",
         "add",
+        "pr",
         "default",
         "--dir",
         target_dir.to_str().unwrap(),
@@ -85,17 +85,17 @@ fn test_pr_add_force_overwrite() {
     fs::write(&pr_template_path, "existing content").unwrap();
 
     // Try to add without force (should fail)
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
-    cmd.args(&["pr", "add", "default"])
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["add", "pr", "default"])
         .assert()
         .failure()
         .stderr(predicate::str::contains("already exists"));
     cmd.current_dir(&temp_path);
 
     // Try with force flag (should succeed)
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default", "--force"])
+    cmd.args(&["add", "pr", "default", "--force"])
         .assert()
         .success();
 
@@ -106,8 +106,8 @@ fn test_pr_add_force_overwrite() {
 #[test]
 fn test_pr_add_invalid_type() {
     let _temp_dir = setup_test_env();
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
-    cmd.args(&["pr", "add", "invalid-template"])
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["add", "pr", "invalid-template"])
         .assert()
         .failure()
         .stderr(predicate::str::contains("Not Found"));
@@ -118,9 +118,9 @@ fn test_pr_add_unknown_argument() {
     let temp_dir = setup_test_env();
     let temp_path = temp_dir.path().to_path_buf();
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "--unknown"])
+    cmd.args(&["add", "pr", "--unknown"])
         .assert()
         .failure()
         .stderr(predicate::str::contains(
@@ -136,9 +136,9 @@ fn test_pr_add_valid_and_invalid_template() {
     create_git_repo(&temp_path);
 
     // Add both a valid and an invalid template in a single command
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default", "invalid-template"])
+    cmd.args(&["add", "pr", "default", "invalid-template"])
         .assert()
         .failure()
         .stderr(
@@ -156,9 +156,9 @@ fn test_pr_add_default_with_output_without_ext() {
 
     create_git_repo(&temp_path);
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default", "-o", "default"])
+    cmd.args(&["add", "pr", "default", "-o", "default"])
         .assert()
         .success()
         .stdout(predicate::str::contains("default.md - has been added."));
@@ -171,9 +171,9 @@ fn test_pr_add_default_with_output_with_ext() {
 
     create_git_repo(&temp_path);
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default", "-o", "default.md"])
+    cmd.args(&["add", "pr", "default", "-o", "default.md"])
         .assert()
         .success()
         .stdout(predicate::str::contains("default.md - has been added."));
@@ -187,9 +187,9 @@ fn test_pr_add_uneven_templates_and_outputs() {
     create_git_repo(&temp_path);
 
     // Provide two templates but only one output file name
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "add", "default", "default", "-o", "file1.md"])
+    cmd.args(&["add", "pr", "default", "default", "-o", "file1.md"])
         .assert()
         .failure()
         .stderr(predicate::str::contains(
@@ -201,8 +201,8 @@ fn test_pr_add_uneven_templates_and_outputs() {
 #[test]
 fn test_pr_list() {
     let _temp_dir = setup_test_env();
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
-    cmd.args(&["pr", "list"])
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["list", "prs"])
         .assert()
         .success()
         .stdout(predicate::str::contains("default.md"));
@@ -215,9 +215,9 @@ fn test_pr_preview_single() {
     let temp_dir = setup_test_env();
     let temp_path = temp_dir.path().to_path_buf();
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "preview", "default"])
+    cmd.args(&["preview", "pr", "default"])
         .assert()
         .success()
         .stdout(predicate::str::is_match(".+").unwrap());
@@ -228,9 +228,9 @@ fn test_pr_preview_invalid_id() {
     let temp_dir = setup_test_env();
     let temp_path = temp_dir.path().to_path_buf();
 
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
     cmd.current_dir(&temp_path);
-    cmd.args(&["pr", "preview", "not-a-template"])
+    cmd.args(&["preview", "pr", "not-a-template"])
         .assert()
         .failure()
         .stderr(
@@ -240,16 +240,33 @@ fn test_pr_preview_invalid_id() {
 }
 
 // --------     HELP COMMAND TEST     --------
-
 #[test]
 fn test_pr_help_command() {
     let _temp_dir = setup_test_env();
-    let mut cmd = AssertCommand::cargo_bin("gh-templates").unwrap();
-    cmd.args(&["pr", "--help"])
+
+    // add pr help
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["add", "pr", "--help"])
         .assert()
         .success()
-        .stdout(predicate::str::contains("PR"))
-        .stdout(predicate::str::contains("add"))
-        .stdout(predicate::str::contains("preview"))
-        .stdout(predicate::str::contains("list"));
+        .stdout(predicate::str::contains("Add a pull request template"))
+        .stdout(predicate::str::contains("Usage: gitforge add pr-template"))
+        .stdout(predicate::str::contains("--dir"))
+        .stdout(predicate::str::contains("--force"));
+
+    // list pr help
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["list", "pr", "--help"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("List available pull request templates"))
+        .stdout(predicate::str::contains("Usage: gitforge list pr"));
+
+    // preview pr help
+    let mut cmd = AssertCommand::cargo_bin("gitforge").unwrap();
+    cmd.args(&["preview", "pr", "--help"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Preview a pull request template"))
+        .stdout(predicate::str::contains("Usage: gitforge preview pr"));
 }
