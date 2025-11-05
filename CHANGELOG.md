@@ -7,7 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
-## [Unreleased]
+### Chore
+
+- update CHANGELOG [skip ci] (40fbae0)
+
+
+## [v0.1.43]
 
 
 
@@ -17,14 +22,17 @@ All notable changes to this project will be documented in this file.
 
 - update documentation for v0.1.42 [skip ci] (3c38d14)
 
-
-## [Unreleased]
-
+- update CHANGELOG [skip ci] (8b3c562)
 
 
-### Chore
+### Fix
 
-- update CHANGELOG [skip ci] (deb09bb)
+- standardize the format template (adbff58)
+
+
+### Refactor
+
+- made contribution guidelines more clearer in CONTRIBUTING.md (3ff9ce7)
 
 
 ## [v0.1.42]
