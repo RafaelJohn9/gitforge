@@ -99,11 +99,11 @@ By default, issue templates are saved to the `.github/ISSUE_TEMPLATE/` directory
 - [List Issue Templates](./issue-list.md)
 - [Preview Issue Templates](./issue-preview.md)
 
-Adding Labels to Your Repository
+## Adding Labels to Your Repository
 
 To ensure your repository uses the same labels as GitForge, follow these steps:
 
-1. Copy Labels from GitForge
+### 1. Copy Labels from GitForge
 You can export labels from GitForge using the `gh label clone` command (requires the GitHub CLI):
 
 ```bash
@@ -113,10 +113,10 @@ gh label clone RafaelJohn9/gitforge --repo <your-username>/<your-repo>
 
 This will duplicate all labels (like bug, feature, chore, documentation, etc.) into your repository.
 
-2. Verify Labels
+### 2. Verify Labels
 
 After cloning, check your repo’s Issues > Labels section on GitHub to confirm they match GitForge’s label set.
 
-3. Maintain Consistency
+### 3. Maintain Consistency
 
 Whenever GitForge updates its label set, rerun the clone command to sync updates.
